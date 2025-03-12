@@ -1,7 +1,7 @@
 import os
 import pickle
 
-from base import BasePage
+from src.pages.base import BasePage
 from src.pages.elements import WebElement
 
 

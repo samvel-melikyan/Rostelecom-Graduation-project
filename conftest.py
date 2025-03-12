@@ -1,17 +1,28 @@
 import allure
 import pytest
 import uuid
+from selenium.webdriver.firefox.options import Options
 
+
+# @pytest.fixture
+# def chrome_options(chrome_options):
+#     chrome_options.binary_location = '/usr/bin/google-chrome-stable'
+#     # chrome_options.add_argument('--headless')
+#     chrome_options.add_argument('--no-sandbox')
+#     chrome_options.add_argument('--log-level=DEBUG')
+#
+#     return chrome_options
 
 
 @pytest.fixture
-def chrome_options(chrome_options):
-    # chrome_options.binary_location = '/usr/bin/google-chrome-stable'
-    # chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--log-level=DEBUG')
+def firefox_options():
+    options = Options()
+    options.binary_location = "drivers/geckodriver.exe"
+    # options.add_argument("-headless")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--log-level=DEBUG")
 
-    return chrome_options
+    return options
 
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
