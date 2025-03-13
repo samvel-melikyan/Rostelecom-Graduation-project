@@ -1,10 +1,16 @@
+import inspect
 import time
+
+from selenium.common import TimeoutException
+from selenium.webdriver.common.by import By
 from termcolor import colored
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+
+from tests.conftest import web_browser
 
 
 class WebElement:
@@ -13,27 +19,22 @@ class WebElement:
     _web_driver = None
     _page = None
     _timeout = 10
-    _wait_after_click = False  # TODO: how we can wait after click?
+    _wait_after_click = False
 
     def __init__(self, timeout=10, wait_after_click=False, **kwargs):
         self._timeout = timeout
         self._wait_after_click = wait_after_click
-
         for attr in kwargs:
             self._locator = (str(attr).replace('_', ' '), str(kwargs.get(attr)))
 
     def find(self, timeout=10):
         """ Find element on the page. """
-
         element = None
-
         try:
             element = WebDriverWait(self._web_driver, timeout).until(
-               EC.presence_of_element_located(self._locator)
-            )
+               EC.presence_of_element_located(self._locator))
         except:
-            print(colored('Element not found on the page!', 'red'))
-
+            print(colored('Element not found on the page!', 'green'))
         return element
 
     def wait_to_be_clickable(self, timeout=10, check_visibility=True):
@@ -58,31 +59,24 @@ class WebElement:
 
     def is_presented(self):
         """ Check that element is presented on the page. """
-
         element = self.find(timeout=0.1)
         return element is not None
 
     def is_visible(self):
         """ Check is the element visible or not. """
-
         element = self.find(timeout=0.1)
-
         if element:
             return element.is_displayed()
-
         return False
 
     def wait_until_not_visible(self, timeout=10):
-
         element = None
-
         try:
             element = WebDriverWait(self._web_driver, timeout).until(
                 EC.visibility_of_element_located(self._locator)
             )
         except:
             print(colored('Element not visible!', 'red'))
-
         if element:
             js = ('return (!(arguments[0].offsetParent === null) && '
                   '!(window.getComputedStyle(arguments[0]) === "none") &&'
@@ -90,24 +84,17 @@ class WebElement:
                   ');')
             visibility = self._web_driver.execute_script(js, element)
             iteration = 0
-
             while not visibility and iteration < 10:
                 time.sleep(0.5)
-
                 iteration += 1
-
                 visibility = self._web_driver.execute_script(js, element)
                 print('Element {0} visibility: {1}'.format(self._locator, visibility))
-
         return element
 
     def send_keys(self, keys, wait=2):
         """ Send keys to the element. """
-
         keys = keys.replace('\n', '\ue007')
-
         element = self.find()
-
         if element:
             element.click()
             element.clear()
@@ -119,15 +106,12 @@ class WebElement:
 
     def get_text(self):
         """ Get text of the element. """
-
         element = self.find()
         text = ''
-
         try:
             text = str(element.text)
         except Exception as e:
             print('Error: {0}'.format(e))
-
         return text
 
     def get_attribute(self, attr_name):

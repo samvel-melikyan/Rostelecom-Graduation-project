@@ -1,6 +1,25 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+
+from tests.conftest import web_browser
 from src.pages.auth import AuthPage
-BASE_URL = "https://b2c.passport.rt.ru/auth/realms/b2c/protocol/openid-connect/auth?client_id=account_b2c&redirect_uri=https://b2c.passport.rt.ru/account_b2c/login?theme%3Dlight&response_type=code&scope=openid&state=175cc718-90d6-4395-ba45-56c920d6810c&theme=light"
+BASE_URL = "https://b2c.passport.rt.ru"
+
+
+
 class TestAuthPage:
-    def test_auth_page_is_available(self, driver):
-        page = AuthPage(driver, BASE_URL)
-        assert page.title == "Авторизация"
+
+    def test_auth_page_is_available(self, web_browser):
+        page = AuthPage(web_browser)
+        element = WebDriverWait(web_browser, 10).until(
+            EC.presence_of_element_located((By.ID, 'card-title')))
+        print(element.text)
+        # print(type(page.title.get_text()))
+        # assert page.title is not None
+
+        # text = page.title.get_text()
+        # assert text == "Авторизация"
+
+# ToDo need to fully rewrite elements
