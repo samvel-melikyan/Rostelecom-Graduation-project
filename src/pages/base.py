@@ -9,10 +9,11 @@ from selenium.webdriver.support import expected_conditions as EC
 class BasePage:
 
     _driver = None
-
+    BASE_URL = 'https://b2c.passport.rt.ru'
     def __init__(self, driver, url=''):
+        self.current_url = self.BASE_URL + url
         self._driver = driver
-        self.get(url)
+        self.get(self.current_url)
 
     # def __setattr__(self, name, value):
     #     if not name.startswith('_'):
@@ -28,6 +29,9 @@ class BasePage:
     #         attr._page = self
     #
     #     return attr
+
+    def get_url(self):
+        return self.current_url
 
     def get(self, url):
         self._driver.get(url)

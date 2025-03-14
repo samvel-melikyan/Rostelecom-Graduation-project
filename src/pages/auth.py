@@ -1,19 +1,22 @@
 import os
 import pickle
 
+from settings import *
+from src.pages.account import AccountPage
 from src.pages.base import BasePage
 from src.pages.elements import WebElement
+from tests.conftest import web_browser
 
 
 class AuthPage(BasePage):
-    URL = "https://b2c.passport.rt.ru/auth/realms/b2c/protocol/openid-connect/auth?client_id=account_b2c&redirect_uri=https://b2c.passport.rt.ru/account_b2c/login&response_type=code&scope=openid&state=382d15e4-a42b-4a53-9f88-1d1cee5552e0"
     cookies_path = r'C:\Users\User\PycharmProjects\Rostelecom-AutoTests\ my_cookies.txt'
 
-    def __init__(self, driver, url=''):
-        if url == '':
-            self.url = os.getenv("MAIN_URL") or self.URL
-        super().__init__(driver, self.url)
-        #
+    path_url = "/auth"
+
+    def __init__(self, driver):
+        super().__init__(driver, self.path_url)
+        self._driver = driver
+        self.current_url = self.BASE_URL + self.path_url
         # with open(self.cookies_path, 'rb') as cookiesfile:
         #  cookies = pickle.load(cookiesfile)
         #
@@ -21,30 +24,40 @@ class AuthPage(BasePage):
         #      driver.add_cookie(cookie)
         #      driver.refresh()
 
-    title = WebElement(id="card-title")
+        # initialize elements
+        self.title = WebElement(self._driver, id="card-title")
 
-    tab_phone = WebElement(id="t-btn-tab-phone")
-    tab_mail = WebElement(id="t-btn-tab-mail")
-    tab_login = WebElement(id="t-btn-tab-login")
-    tab_account_number = WebElement(id="t-btn-tab-ls")
+        self.tab_phone = WebElement(self._driver, id="t-btn-tab-phone")
+        self.tab_mail = WebElement(self._driver, id="t-btn-tab-mail")
+        self.tab_login = WebElement(self._driver, id="t-btn-tab-login")
+        self.tab_account_number = WebElement(self._driver, id="t-btn-tab-ls")
 
-    username = WebElement(id="username")
-    password = WebElement(id="password")
+        self.username = WebElement(self._driver, id="username")
+        self.username_placholder = WebElement(self._driver, xpath='//div[@class="rt-input rt-input--rounded rt-input--orange"]/span')
 
-    eye = WebElement(CLASS="rt-base-icon rt-base-icon--fill-path rt-eye-icon rt-input__eye")
+        self.password = WebElement(self._driver, id="password")
 
-    remember_me_checkbox = WebElement(id="kc-login")
+        self.eye = WebElement(self._driver, CLASS="rt-base-icon rt-base-icon--fill-path rt-eye-icon rt-input__eye")
 
-    login_button = WebElement(id="kc-login")
+        self.remember_me_checkbox = WebElement(self._driver, id="kc-login")
 
-    user_agreement_link = WebElement(link_text="пользовательского соглашения")
+        self.login_button = WebElement(self._driver, id="kc-login")
 
-    register_link = WebElement(id="kc-register")
+        self.user_agreement_link = WebElement(self._driver, link_text="пользовательского соглашения")
 
-    help_link = WebElement(link_text="Помощь")
+        self.register_link = WebElement(self._driver, id="kc-register")
+
+        self.help_link = WebElement(self._driver, link_text="Помощь")
 
 
-
+    def login(self, email, password):
+        self.get_url()
+        self.tab_mail.click()
+        self.username.send_keys(email)
+        self.password.send_keys(password)
+        self.login_button.click()
+        self.wait_page_loaded()
+        return AccountPage(self._driver)
 
 
 

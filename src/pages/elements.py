@@ -1,16 +1,11 @@
-import inspect
 import time
 
-from selenium.common import TimeoutException
-from selenium.webdriver.common.by import By
 from termcolor import colored
 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-
-from tests.conftest import web_browser
 
 
 class WebElement:
@@ -21,14 +16,16 @@ class WebElement:
     _timeout = 10
     _wait_after_click = False
 
-    def __init__(self, timeout=10, wait_after_click=False, **kwargs):
+    def __init__(self, driver, timeout=10, wait_after_click=False, **kwargs):
         self._timeout = timeout
+        self._web_driver = driver
         self._wait_after_click = wait_after_click
         for attr in kwargs:
             self._locator = (str(attr).replace('_', ' '), str(kwargs.get(attr)))
 
     def find(self, timeout=10):
         """ Find element on the page. """
+
         element = None
         try:
             element = WebDriverWait(self._web_driver, timeout).until(
@@ -116,9 +113,7 @@ class WebElement:
 
     def get_attribute(self, attr_name):
         """ Get attribute of the element. """
-
         element = self.find()
-
         if element:
             return element.get_attribute(attr_name)
 
@@ -134,9 +129,8 @@ class WebElement:
 
     def click(self, hold_seconds=0, x_offset=1, y_offset=1):
         """ Wait and click the element. """
-
+        # self.find(self._locator)
         element = self.wait_to_be_clickable()
-
         if element:
             action = ActionChains(self._web_driver)
             action.move_to_element_with_offset(element, x_offset, y_offset).\
@@ -144,15 +138,13 @@ class WebElement:
         else:
             msg = 'Element with locator {0} not found'
             raise AttributeError(msg.format(self._locator))
-
         if self._wait_after_click:
             self._page.wait_page_loaded()
 
+
     def right_mouse_click(self, x_offset=0, y_offset=0, hold_seconds=0):
         """ Click right mouse button on the element. """
-
         element = self.wait_to_be_clickable()
-
         if element:
             action = ActionChains(self._web_driver)
             action.move_to_element_with_offset(element, x_offset, y_offset). \
@@ -161,11 +153,10 @@ class WebElement:
             msg = 'Element with locator {0} not found'
             raise AttributeError(msg.format(self._locator))
 
+
     def highlight_and_make_screenshot(self, file_name='element.png'):
         """ Highlight element and make the screen-shot of all page. """
-
         element = self.find()
-
         # Scroll page to the element:
         self._web_driver.execute_script("arguments[0].scrollIntoView();", element)
 
