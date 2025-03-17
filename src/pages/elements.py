@@ -25,13 +25,12 @@ class WebElement:
 
     def find(self, timeout=10):
         """ Find element on the page. """
-
         element = None
         try:
             element = WebDriverWait(self._web_driver, timeout).until(
                EC.presence_of_element_located(self._locator))
         except:
-            print(colored('Element not found on the page!', 'green'))
+            print(colored('Element not found on the page!', 'red'))
         return element
 
     def wait_to_be_clickable(self, timeout=10, check_visibility=True):
@@ -57,6 +56,7 @@ class WebElement:
     def is_presented(self):
         """ Check that element is presented on the page. """
         element = self.find(timeout=0.1)
+
         return element is not None
 
     def is_visible(self):
@@ -257,15 +257,11 @@ class ManyWebElements(WebElement):
 
     def highlight_and_make_screenshot(self, file_name='element.png'):
         """ Highlight elements and make the screen-shot of all page. """
-
         elements = self.find()
-
         for element in elements:
             # Scroll page to the element:
             self._web_driver.execute_script("arguments[0].scrollIntoView();", element)
-
             # Add red border to the style:
             self._web_driver.execute_script("arguments[0].style.border='3px solid red'", element)
-
         # Make screen-shot of the page:
         self._web_driver.save_screenshot(file_name)

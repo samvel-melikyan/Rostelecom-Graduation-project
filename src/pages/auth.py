@@ -49,9 +49,11 @@ class AuthPage(BasePage):
 
         self.help_link = WebElement(self._driver, link_text="Помощь")
 
+        self.error_message = WebElement(self._driver, id="form-error-message")
+
+        self.error_empty_email = WebElement(self._driver, id="username-meta")
 
     def login(self, email, password):
-        self.get_url()
         self.tab_mail.click()
         self.username.send_keys(email)
         self.password.send_keys(password)
@@ -59,6 +61,12 @@ class AuthPage(BasePage):
         self.wait_page_loaded()
         return AccountPage(self._driver)
 
+    def login_test(self, email, password):
+        self.tab_mail.click()
+        self.username.send_keys(email)
+        self.password.send_keys(password)
+        self.login_button.click()
+        self.wait_page_loaded()
 
 
 
