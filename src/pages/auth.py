@@ -39,7 +39,9 @@ class AuthPage(BasePage):
 
         self.eye = WebElement(self._driver, CLASS="rt-base-icon rt-base-icon--fill-path rt-eye-icon rt-input__eye")
 
-        self.remember_me_checkbox = WebElement(self._driver, class_name="rt-base-icon rt-base-icon--default-color rt-base-icon--fill-path rt-check-small-icon rt-checkbox__check-icon")
+        self.checkbox = WebElement(self._driver, class_name="rt-checkbox__shape rt-checkbox__shape--rounded rt-checkbox__shape--orange")
+        self.remember_me_checkbox = WebElement(self._driver, class_name="rt-checkbox")
+        self.remember_me_checkbox_checked = WebElement(self._driver, class_name="rt-checkbox rt-checkbox--checked")
 
         self.login_button = WebElement(self._driver, id="kc-login")
 

@@ -79,20 +79,17 @@ class TestAuthPage:
         assert current_url == auth_page.url, "Login with empty or invalid credentials passed"
         assert (auth_page.error_empty_email.is_presented()
                 or auth_page.error_empty_email.is_presented()), "login with "
-    #
-    # def test_remember_me_checkbox(self, web_browser):
-    #     auth_page = AuthPage(web_browser)
-    #     auth_page.remember_me_checkbox.click()
-    #     assert auth_page.remember_me_checkbox.get_attribute('checked'), "Checkbox is not checked"
 
     def test_functionality_of_remember_me_checkbox(self, web_browser):
         auth_page = AuthPage(web_browser)
-        if not auth_page.remember_me_checkbox.get_attribute('aria-hidden'):
-            auth_page.remember_me_checkbox.click()
-        auth_page.login(valid_email, valid_password)
-        web_browser.close()
+        try:
+            auth_page.remember_me_checkbox.is_presented()
+            auth_page.checkbox.click()
+        except AttributeError:
+            auth_page.remember_me_checkbox_checked.is_presented()
+        web_browser.execute_script("window.open('');")
+        web_browser.switch_to.window(web_browser.window_handles[1])
         account_page = AccountPage(web_browser)
-        account_page.get_page()
         name = account_page.user_name.get_text()
         assert name == user_name, "Login failed"
 
