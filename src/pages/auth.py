@@ -16,7 +16,7 @@ class AuthPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, self.path_url)
         self._driver = driver
-        self.current_url = self.BASE_URL + self.path_url
+        self.url = self.BASE_URL + self.path_url
         # with open(self.cookies_path, 'rb') as cookiesfile:
         #  cookies = pickle.load(cookiesfile)
         #
@@ -39,7 +39,7 @@ class AuthPage(BasePage):
 
         self.eye = WebElement(self._driver, CLASS="rt-base-icon rt-base-icon--fill-path rt-eye-icon rt-input__eye")
 
-        self.remember_me_checkbox = WebElement(self._driver, id="kc-login")
+        self.remember_me_checkbox = WebElement(self._driver, class_name="rt-base-icon rt-base-icon--default-color rt-base-icon--fill-path rt-check-small-icon rt-checkbox__check-icon")
 
         self.login_button = WebElement(self._driver, id="kc-login")
 

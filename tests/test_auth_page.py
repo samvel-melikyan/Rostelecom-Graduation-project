@@ -12,34 +12,29 @@ class TestAuthPage:
 
     def test_auth_page_is_available(self, web_browser):
         auth_page = AuthPage(web_browser)
-        # auth_page.get_url(auth_page.path_url)
         text = auth_page.title.get_text()
         assert text == "Авторизация", "Wrong page title"
 
     def test_choose_phone_tab(self, web_browser):
         auth_page = AuthPage(web_browser)
-        # auth_page.get_url(auth_page.path_url)
         auth_page.tab_phone.click()
         placeholder = auth_page.username_placholder.get_text()
         assert placeholder == 'Мобильный телефон', "Username field is not presented"
 
     def test_choose_mail_tab(self, web_browser):
         auth_page = AuthPage(web_browser)
-        # auth_page.get_url(auth_page.path_url)
         auth_page.tab_mail.click()
         placeholder = auth_page.username_placholder.get_text()
         assert placeholder == 'Электронная почта', "Username field is not presented"
 
     def test_choose_login_tab(self, web_browser):
         auth_page = AuthPage(web_browser)
-        # auth_page.get_url(auth_page.path_url)
         auth_page.tab_login.click()
         placeholder = auth_page.username_placholder.get_text()
         assert placeholder == 'Логин', "Username field is not presented"
 
     def test_choose_account_number_tab(self, web_browser):
         auth_page = AuthPage(web_browser)
-        # auth_page.get_url(auth_page.path_url)
         auth_page.tab_account_number.click()
         placeholder = auth_page.username_placholder.get_text()
         assert placeholder == 'Лицевой счёт', "Username field is not presented"
@@ -48,7 +43,7 @@ class TestAuthPage:
         auth_page = AuthPage(web_browser)
         account_page = auth_page.login(valid_email, valid_password)
         name = account_page.user_name.get_text()
-        assert name == 'Ресалтваниюсн Саливан', "Login failed"
+        assert name == user_name, "Login failed"
 
     @pytest.mark.negative
     @pytest.mark.parametrize("email, password", [
@@ -66,8 +61,8 @@ class TestAuthPage:
     def test_login_with_invalid_email_credentials(self, web_browser, email, password):
         auth_page = AuthPage(web_browser)
         auth_page.login_test(email, password)
-        current_url = web_browser.current_url[:len(auth_page.current_url)]
-        assert current_url == auth_page.current_url, "Login with empty or invalid credentials passed"
+        current_url = web_browser.current_url[:len(auth_page.url)]
+        assert current_url == auth_page.url, "Login with empty or invalid credentials passed"
         assert auth_page.error_message.is_presented(), "login with invalid credentials passed"
 
 
@@ -80,7 +75,27 @@ class TestAuthPage:
     def test_login_with_empty_email_credentials(self, web_browser, email, password):
         auth_page = AuthPage(web_browser)
         auth_page.login_test(email, password)
-        current_url = web_browser.current_url[:len(auth_page.current_url)]
-        assert current_url == auth_page.current_url, "Login with empty or invalid credentials passed"
-        assert auth_page.error_empty_email.is_presented() or auth_page.error_empty_email.is_presented(), "login with "
+        current_url = web_browser.current_url[:len(auth_page.url)]
+        assert current_url == auth_page.url, "Login with empty or invalid credentials passed"
+        assert (auth_page.error_empty_email.is_presented()
+                or auth_page.error_empty_email.is_presented()), "login with "
+    #
+    # def test_remember_me_checkbox(self, web_browser):
+    #     auth_page = AuthPage(web_browser)
+    #     auth_page.remember_me_checkbox.click()
+    #     assert auth_page.remember_me_checkbox.get_attribute('checked'), "Checkbox is not checked"
+
+    def test_functionality_of_remember_me_checkbox(self, web_browser):
+        auth_page = AuthPage(web_browser)
+        if not auth_page.remember_me_checkbox.get_attribute('aria-hidden'):
+            auth_page.remember_me_checkbox.click()
+        auth_page.login(valid_email, valid_password)
+        web_browser.close()
+        account_page = AccountPage(web_browser)
+        account_page.get_page()
+        name = account_page.user_name.get_text()
+        assert name == user_name, "Login failed"
+
+
+
 

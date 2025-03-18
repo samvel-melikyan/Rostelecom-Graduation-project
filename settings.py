@@ -4,6 +4,8 @@ valid_email = 'salyresaly@gmail.com'
 valid_ls = 'valid account number'
 valid_password = '123---321Password'
 
+user_name = 'Ресалтваниюсн Саливан'
+
 unregisered_email = 'MSLa@mail.ru'
 
 

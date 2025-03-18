@@ -7,8 +7,12 @@ class AccountPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver, self.path_url)
         self._driver = driver
-        self.current_url = self.BASE_URL + self.path_url
+        self.url = self.BASE_URL + self.path_url
 
 
         # initialize elements
         self.user_name = WebElement(self._driver, tag_name="h2")
+
+    def get_page(self):
+        self._driver.get(self.url)
+        self.wait_page_loaded()
