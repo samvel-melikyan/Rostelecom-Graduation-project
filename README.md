@@ -1,4 +1,37 @@
-# Rostelecom auto-tests for authorization
+# Rostelecom Auto-Tests for Authorization
+
+This project provides a structured starting point for writing automated tests for the Rostelecom authorization process. It includes all key components required for a well-documented open-source or private project.
+
+## Table of Contents
+
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Support](#support)
+
+## Features
+
+- Automated tests for Rostelecom authorization.
+- Clearly defined sections for project documentation.
+- Easy-to-follow examples for installation, usage, and contributing.
+- Flexible template for various project types: web, CLI tools, or frameworks.
+- Encourages standard best practices for GitHub documentation.
+
+## Technologies Used
+
+- Python
+- Selenium
+- PyTest
+- Git/GitHub (for repository hosting and version control)
+
+## Installation
+
+1. Clone this repository to use it as a baseline for your own project documentation.
+   ```bash
+   git clone https://github.com/samvel-melikyan/Rostelecom-Graduation-project.git# Rostelecom auto-tests for authorization
 
 This project provides a structured starting point for writing sdocutandard GitHub README mentation. It outlines all key
 components required for a well-documented open-source or private project.

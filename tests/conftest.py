@@ -1,17 +1,14 @@
-import allure
-import pytest
 import uuid
 
+import allure
+import pytest
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from webdriver_manager.firefox import GeckoDriverManager
 
 
 @pytest.fixture(scope="session")
 def driver():
     """Setup WebDriver for Firefox"""
-
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--log-level=DEBUG")
@@ -22,6 +19,7 @@ def driver():
     yield driver
     driver.quit()
 
+
 @pytest.fixture(scope="session")
 def firefox_options():
     """Setup Firefox options"""
@@ -31,7 +29,6 @@ def firefox_options():
     options.add_argument("--no-sandbox")
     options.add_argument("--log-level=DEBUG")
     return options
-
 
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
@@ -63,6 +60,7 @@ def web_browser(request, driver):
                 print(log)
         except Exception as e:
             print(f"Error capturing screenshot: {e}")
+
 
 def get_test_case_docstring(item):
     """Format docstring for human-readable test case names"""

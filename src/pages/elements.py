@@ -50,18 +50,18 @@ class WebElement:
     def is_clickable(self):
         """ Check is element ready for click or not. """
 
-        element = self.wait_to_be_clickable(timeout=0.1)
+        element = self.wait_to_be_clickable(timeout=3)
         return element is not None
 
     def is_presented(self):
         """ Check that element is presented on the page. """
-        element = self.find(timeout=0.1)
+        element = self.find(timeout=3)
 
         return element is not None
 
     def is_visible(self):
         """ Check is the element visible or not. """
-        element = self.find(timeout=0.1)
+        element = self.find(timeout=3)
         if element:
             return element.is_displayed()
         return False
@@ -88,7 +88,7 @@ class WebElement:
                 print('Element {0} visibility: {1}'.format(self._locator, visibility))
         return element
 
-    def send_keys(self, keys, wait=2):
+    def send_keys(self, keys, wait=1):
         """ Send keys to the element. """
         keys = keys.replace('\n', '\ue007')
         element = self.find()

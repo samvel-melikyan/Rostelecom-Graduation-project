@@ -15,20 +15,6 @@ class BasePage:
         self._driver = driver
         self.get(self.current_url)
 
-    # def __setattr__(self, name, value):
-    #     if not name.startswith('_'):
-    #         self.__getattribute__(name)._set_value(self._driver, value)
-    #     else:
-    #         super(BasePage, self).__setattr__(name, value)
-
-    # def __getattribute__(self, item):
-    #     attr = object.__getattribute__(self, item)
-    #
-    #     if not item.startswith('_') and not callable(attr):
-    #         attr._driver = self._driver
-    #         attr._page = self
-    #
-    #     return attr
 
     def get_url(self):
         return self.current_url
