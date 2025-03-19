@@ -1,6 +1,8 @@
 # Rostelecom Auto-Tests for Authorization
 
 This project provides a structured starting point for writing automated tests for the Rostelecom authorization process. It includes all key components required for a well-documented open-source or private project.
+## Test Case link
+https://docs.google.com/spreadsheets/d/1r51Z7KtxruxdOfcmPxcu4TVpGV_A_ZLG8ND8wELBFoc/edit?usp=sharing
 
 ## Table of Contents
 
