@@ -56,6 +56,7 @@ class AuthPage(BasePage):
         self.error_empty_email = WebElement(self._driver, id="username-meta")
 
     def login(self, email, password):
+        self.wait_page_loaded()
         self.tab_mail.click()
         self.username.send_keys(email)
         self.password.send_keys(password)
@@ -64,6 +65,7 @@ class AuthPage(BasePage):
         return AccountPage(self._driver)
 
     def login_test(self, email, password):
+        self.wait_page_loaded()
         self.tab_mail.click()
         self.username.send_keys(email)
         self.password.send_keys(password)

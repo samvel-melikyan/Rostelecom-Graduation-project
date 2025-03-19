@@ -49,9 +49,6 @@ class TestAuthPage:
     @pytest.mark.parametrize("email, password", [
         (valid_email, valid_password[:8]),
         (unregisered_email, valid_password),
-        # ('', ''),
-        # ('', valid_password),
-        # (valid_email, ''),
         (valid_email.replace('@', ''), valid_password),
         (valid_email[-4], valid_password),
         (valid_email[:valid_email.index('@')], valid_password),
